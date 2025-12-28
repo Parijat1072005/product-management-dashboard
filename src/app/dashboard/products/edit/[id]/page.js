@@ -128,7 +128,7 @@ export default function EditProductPage() {
           <div className="flex gap-4">
             <button type="button" onClick={() => router.push("/dashboard/products")} className="px-6 py-3 border rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition">Cancel</button>
             <button onClick={() => setStep(1)} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold">Back</button>
-            <button onClick={() => setStep(3)} className="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold">Next: Media</button>
+            <button onClick={() => setStep(3)} className="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition">Next: Media</button>
           </div>
         </div>
       )}
