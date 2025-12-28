@@ -1,72 +1,61 @@
 import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
 import Link from "next/link";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Edit } from "lucide-react";
+import DeleteButton from "@/components/DeleteButton"; // Import the new client component
 
 export default async function ProductsPage() {
   await dbConnect();
-  // Fetch products from Atlas, converted to plain objects for Next.js
-  const products = await Product.find({}).lean();
+  const products = await Product.find({}).sort({ createdAt: -1 });
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
+    <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Product Catalog</h2>
+        <h1 className="text-2xl font-bold text-gray-800">Products Inventory</h1>
         <Link 
           href="/dashboard/products/new" 
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-md"
         >
-          <Plus size={18} /> Add Product
+          + Add Product
         </Link>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b bg-gray-50">
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+        <table className="w-full text-left">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
               <th className="p-4 font-semibold text-gray-600">Product</th>
               <th className="p-4 font-semibold text-gray-600">Category</th>
               <th className="p-4 font-semibold text-gray-600">Price</th>
-              <th className="p-4 font-semibold text-gray-600">Stock</th>
-              <th className="p-4 font-semibold text-gray-600">Actions</th>
+              <th className="p-4 font-semibold text-gray-600 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {products.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="p-8 text-center text-gray-400">
-                  No products found. Start by adding one!
+            {products.map((product) => (
+              <tr key={product._id} className="border-b border-gray-100 hover:bg-gray-50 transition">
+                <td className="p-4 flex items-center gap-3 text-gray-900">
+                  {product.imageUrl && (
+                    <img src={product.imageUrl} className="w-10 h-10 rounded object-cover" />
+                  )}
+                  {product.name}
+                </td>
+                <td className="p-4 text-gray-600">{product.category}</td>
+                <td className="p-4 font-bold text-gray-900">${product.price}</td>
+                <td className="p-4 text-right">
+                  <div className="flex justify-end gap-2">
+                    <Link 
+                      href={`/dashboard/products/edit/${product._id}`} 
+                      className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                    >
+                      <Edit size={18} />
+                    </Link>
+                    
+                    {/* Use the new interactive component here */}
+                    <DeleteButton productId={product._id.toString()} />
+                  </div>
                 </td>
               </tr>
-            ) : (
-              products.map((prod) => (
-                <tr key={prod._id.toString()} className="border-b hover:bg-gray-50 transition">
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gray-200 rounded-md overflow-hidden">
-                        {prod.imageUrl ? (
-                          <img src={prod.imageUrl} alt={prod.name} className="object-cover w-full h-full" />
-                        ) : (
-                          <div className="flex items-center justify-center h-full text-xs text-gray-400">No Image</div>
-                        )}
-                      </div>
-                      <span className="font-medium text-gray-800">{prod.name}</span>
-                    </div>
-                  </td>
-                  <td className="p-4 text-gray-600">{prod.category}</td>
-                  <td className="p-4 font-medium text-blue-600">${prod.price}</td>
-                  <td className={`p-4 font-bold ${prod.stock < 5 ? 'text-red-500' : 'text-gray-600'}`}>
-                    {prod.stock}
-                  </td>
-                  <td className="p-4">
-                    <div className="flex gap-3">
-                      <button className="text-gray-500 hover:text-blue-600"><Edit size={18} /></button>
-                      <button className="text-gray-500 hover:text-red-600"><Trash2 size={18} /></button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
       </div>
