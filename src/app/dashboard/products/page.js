@@ -27,6 +27,7 @@ export default async function ProductsPage() {
               <th className="p-4 font-semibold text-gray-600">Product</th>
               <th className="p-4 font-semibold text-gray-600">Category</th>
               <th className="p-4 font-semibold text-gray-600">Price</th>
+              <th className="p-4 font-semibold text-gray-600">Stock</th>
               <th className="p-4 font-semibold text-gray-600 text-right">Actions</th>
             </tr>
           </thead>
@@ -41,6 +42,7 @@ export default async function ProductsPage() {
                 </td>
                 <td className="p-4 text-gray-600">{product.category}</td>
                 <td className="p-4 font-bold text-gray-900">${product.price}</td>
+                <td className="p-4 font-bold text-gray-900">${product.stock}</td>
                 <td className="p-4 text-right">
                   <div className="flex justify-end gap-2">
                     <Link 
