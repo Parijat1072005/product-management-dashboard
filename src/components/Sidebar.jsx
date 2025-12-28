@@ -2,10 +2,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, ShoppingBasket, Users, LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react"; // Added useSession
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession(); // Fetch session data
+
+  // Extract the name from the session or fallback to "Admin"
+  const adminName = session?.user?.name || "Admin";
 
   const menuItems = [
     { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/dashboard" },
@@ -15,7 +19,14 @@ export default function Sidebar() {
 
   return (
     <div className="w-64 bg-gray-900 text-white min-h-screen p-4 flex flex-col">
-      <h2 className="text-2xl font-bold mb-8 text-blue-400 px-2">Admin Panel</h2>
+      <h2 className="text-2xl font-bold text-blue-400 px-2">Admin Panel</h2>
+      
+      {/* Dynamic Name Section */}
+      <div className="mb-8 px-2">
+        <p className="text-xs text-gray-400 italic">Welcome,</p>
+        <p className="text-sm font-medium text-gray-200">{adminName}</p>
+      </div>
+
       <nav className="flex-1">
         {menuItems.map((item) => (
           <Link
@@ -30,9 +41,10 @@ export default function Sidebar() {
           </Link>
         ))}
       </nav>
+      
       <button
         onClick={() => signOut({ callbackUrl: "/login" })}
-        className="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-600 transition mt-auto"
+        className="flex items-center space-x-3 p-3 rounded-lg bg-red-600 hover:bg-white hover:text-red-600 transition mt-auto"
       >
         <LogOut size={20} />
         <span>Logout</span>

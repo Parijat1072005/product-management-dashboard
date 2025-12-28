@@ -2,14 +2,15 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { getProductById, updateProduct } from "@/actions/productActions";
+import { Loader2 } from "lucide-react"; // Loading icon from lucide-react
 
 export default function EditProductPage() {
   const { id } = useParams();
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(true);
+  const [loading, setLoading] = useState(false); // For Save/Update process
+  const [fetching, setFetching] = useState(true); // For initial data load
   const [formData, setFormData] = useState({
     name: "", description: "", price: "", category: "", stock: ""
   });
@@ -51,15 +52,30 @@ export default function EditProductPage() {
       router.push("/dashboard/products");
     } catch (err) {
       alert("Update failed: Check your connection");
-    } finally {
       setLoading(false);
     }
   };
 
-  if (fetching) return <div className="p-10 text-center">Loading product data...</div>;
+  // Initial Fetching UI
+  if (fetching) return (
+    <div className="flex flex-col items-center justify-center min-h-[400px]">
+      <Loader2 className="animate-spin text-blue-600 mb-2" size={40} />
+      <p className="text-gray-500 font-medium text-lg">Loading product data...</p>
+    </div>
+  );
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
+    <div className="relative max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      
+      {/* LOADING OVERLAY: Appears during Save */}
+      {loading && (
+        <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin text-blue-600 mb-4" size={50} />
+          <h3 className="text-xl font-bold text-gray-800">Updating Product</h3>
+          <p className="text-gray-500">Please wait while we save your changes...</p>
+        </div>
+      )}
+
       {/* Progress Stepper */}
       <div className="flex items-center justify-between mb-10">
         {[1, 2, 3].map((num) => (
@@ -88,7 +104,10 @@ export default function EditProductPage() {
             <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
             <textarea name="description" value={formData.description} onChange={handleChange} rows="4" className="w-full p-3 border rounded-xl text-gray-900 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
           </div>
-          <button onClick={() => setStep(2)} className="w-full bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition">Next: Inventory</button>
+          <div className="flex gap-4">
+            <button type="button" onClick={() => router.push("/dashboard/products")} className="px-6 py-3 border rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition">Cancel</button>
+            <button onClick={() => setStep(2)} className="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition">Next: Inventory</button>
+          </div>
         </div>
       )}
 
@@ -107,8 +126,9 @@ export default function EditProductPage() {
             </div>
           </div>
           <div className="flex gap-4">
-            <button onClick={() => setStep(1)} className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-xl font-bold">Back</button>
-            <button onClick={() => setStep(3)} className="flex-2 bg-blue-600 text-white p-3 rounded-xl font-bold px-10">Next: Media</button>
+            <button type="button" onClick={() => router.push("/dashboard/products")} className="px-6 py-3 border rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition">Cancel</button>
+            <button onClick={() => setStep(1)} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold">Back</button>
+            <button onClick={() => setStep(3)} className="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold">Next: Media</button>
           </div>
         </div>
       )}
@@ -126,11 +146,12 @@ export default function EditProductPage() {
           </div>
           
           <div className="flex gap-4 pt-6">
-            <button onClick={() => setStep(2)} className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-xl font-bold">Back</button>
+            <button type="button" onClick={() => router.push("/dashboard/products")} className="px-6 py-3 border rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition">Cancel</button>
+            <button onClick={() => setStep(2)} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold">Back</button>
             <button 
               onClick={handleUpdate} 
               disabled={loading}
-              className={`flex-2 bg-green-600 text-white p-3 rounded-xl font-bold hover:bg-green-700 px-10 ${loading && 'opacity-50'}`}
+              className={`flex-1 bg-green-600 text-white p-3 rounded-xl font-bold hover:bg-green-700 ${loading && 'opacity-50'}`}
             >
               {loading ? "Updating..." : "Save Changes"}
             </button>
