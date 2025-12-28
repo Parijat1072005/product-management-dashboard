@@ -98,3 +98,9 @@ export async function getProductById(id) {
   const product = await Product.findById(id).lean();
   return JSON.parse(JSON.stringify(product));
 }
+export async function getProducts() {
+  await dbConnect();
+  const products = await Product.find({}).sort({ createdAt: -1 }).lean();
+  // We must stringify and parse to avoid "non-serializable" errors in Client Components
+  return JSON.parse(JSON.stringify(products));
+}
