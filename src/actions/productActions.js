@@ -4,7 +4,7 @@ import Product from "@/models/Product";
 import cloudinary from "@/lib/cloudinary";
 import { revalidatePath } from "next/cache";
 
-// --- EXISTING CREATE ACTION ---
+// --- CREATE ACTION ---
 export async function createProduct(formData) {
   try {
     await dbConnect();
@@ -31,6 +31,7 @@ export async function createProduct(formData) {
       imageUrl: imageUrl
     });
 
+    // Forces Next.js to fetch fresh data for the list page
     revalidatePath("/dashboard/products");
     return { success: true };
   } catch (error) {
@@ -38,7 +39,7 @@ export async function createProduct(formData) {
   }
 }
 
-// --- NEW UPDATE ACTION ---
+// --- UPDATE ACTION ---
 export async function updateProduct(id, formData) {
   try {
     await dbConnect();
@@ -69,25 +70,20 @@ export async function updateProduct(id, formData) {
     throw new Error(error.message);
   }
 }
+
+// --- DELETE ACTION ---
 export async function deleteProduct(id) {
   try {
     await dbConnect();
-
-    // 1. Find product to check for an image
     const product = await Product.findById(id);
     if (!product) throw new Error("Product not found");
 
-    // 2. If product has a Cloudinary image, delete it from the cloud
     if (product.imageUrl) {
-      // Extract the Public ID from the URL (Cloudinary specific logic)
       const publicId = product.imageUrl.split('/').pop().split('.')[0];
       await cloudinary.uploader.destroy(`products/${publicId}`);
     }
 
-    // 3. Remove from MongoDB
     await Product.findByIdAndDelete(id);
-
-    // 4. Refresh the page data
     revalidatePath("/dashboard/products");
     return { success: true };
   } catch (error) {
@@ -96,7 +92,7 @@ export async function deleteProduct(id) {
   }
 }
 
-// --- NEW FETCH SINGLE PRODUCT ACTION ---
+// --- FETCH SINGLE PRODUCT ACTION ---
 export async function getProductById(id) {
   await dbConnect();
   const product = await Product.findById(id).lean();

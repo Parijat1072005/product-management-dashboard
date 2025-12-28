@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createProduct } from "@/actions/productActions";
+import { Loader2 } from "lucide-react"; // Import for the loading spinner
 
 export default function NewProductPage() {
   const [step, setStep] = useState(1);
@@ -32,13 +33,22 @@ export default function NewProductPage() {
     } catch (err) {
       console.error(err);
       alert("Failed to create product");
-    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
+    <div className="relative max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      
+      {/* LOADING OVERLAY: Appears during submission */}
+      {loading && (
+        <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin text-blue-600 mb-4" size={50} />
+          <h3 className="text-xl font-bold text-gray-800">Publishing Product</h3>
+          <p className="text-gray-500">Uploading media and saving to database...</p>
+        </div>
+      )}
+
       {/* Progress Header */}
       <div className="flex items-center justify-between mb-10">
         {[1, 2, 3].map((num) => (
@@ -58,7 +68,7 @@ export default function NewProductPage() {
       {/* Step 1: Basic Info */}
       {step === 1 && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900 border-b pb-2">Step 1: Basic Details</h2>
+          <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 text-left">Step 1: Basic Details</h2>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Product Name</label>
             <input name="name" value={formData.name} onChange={handleChange} placeholder="e.g. Wireless Headphones" className="w-full p-3 border rounded-xl text-gray-900 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
@@ -67,14 +77,17 @@ export default function NewProductPage() {
             <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
             <textarea name="description" value={formData.description} onChange={handleChange} rows="4" placeholder="Describe the product features..." className="w-full p-3 border rounded-xl text-gray-900 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
           </div>
-          <button onClick={() => setStep(2)} className="w-full bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition">Continue to Inventory</button>
+          <div className="flex gap-4">
+            <button type="button" onClick={() => router.push("/dashboard/products")} className="px-6 py-3 border rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition">Cancel</button>
+            <button onClick={() => setStep(2)} className="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition">Continue to Inventory</button>
+          </div>
         </div>
       )}
 
       {/* Step 2: Pricing & Stock */}
       {step === 2 && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900 border-b pb-2">Step 2: Pricing & Inventory</h2>
+          <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 text-left">Step 2: Pricing & Inventory</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Price ($)</label>
@@ -95,8 +108,9 @@ export default function NewProductPage() {
             </select>
           </div>
           <div className="flex gap-4">
-            <button onClick={() => setStep(1)} className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-xl font-bold hover:bg-gray-300">Back</button>
-            <button onClick={() => setStep(3)} className="flex-2 bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 px-10">Continue to Media</button>
+            <button type="button" onClick={() => router.push("/dashboard/products")} className="px-6 py-3 border rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition">Cancel</button>
+            <button onClick={() => setStep(1)} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-300">Back</button>
+            <button onClick={() => setStep(3)} className="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 px-10">Continue to Media</button>
           </div>
         </div>
       )}
@@ -120,11 +134,12 @@ export default function NewProductPage() {
           </div>
           
           <div className="flex gap-4 pt-6">
-            <button onClick={() => setStep(2)} className="flex-1 bg-gray-200 text-gray-700 p-3 rounded-xl font-bold hover:bg-gray-300">Back</button>
+            <button type="button" onClick={() => router.push("/dashboard/products")} className="px-6 py-3 border rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition">Cancel</button>
+            <button onClick={() => setStep(2)} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-300">Back</button>
             <button 
               onClick={handleSubmit} 
               disabled={loading}
-              className={`flex-2 bg-green-600 text-white p-3 rounded-xl font-bold hover:bg-green-700 px-10 ${loading && 'opacity-50 cursor-not-allowed'}`}
+              className={`flex-1 bg-green-600 text-white p-3 rounded-xl font-bold hover:bg-green-700 px-10 ${loading && 'opacity-50 cursor-not-allowed'}`}
             >
               {loading ? "Creating..." : "Finalize & Publish"}
             </button>
