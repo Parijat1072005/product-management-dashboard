@@ -1,10 +1,10 @@
-#Product Management Dashboard
+# Product Management Dashboard
 
 
 A professional, full-stack admin panel designed for efficient inventory management. This project features a multi-step product creation workflow, real-time search and filtering, and secure admin authentication.
 
 
-##Tech Stack
+## Tech Stack
 
 
 **Frontend**: Next.js 15 (App Router) for a fast, modern user experience.
@@ -26,11 +26,11 @@ A professional, full-stack admin panel designed for efficient inventory manageme
 
 
 
-##Key Features
+## Key Features
 
 
 
-###Secure Admin Authentication
+### Secure Admin Authentication
 
 
 
@@ -44,7 +44,7 @@ A professional, full-stack admin panel designed for efficient inventory manageme
 
 
 
-###Inventory Control (Full CRUD)
+### Inventory Control (Full CRUD)
 
 
 
@@ -58,7 +58,7 @@ A professional, full-stack admin panel designed for efficient inventory manageme
 
 
 
-###Search & Smart Filtering
+### Search & Smart Filtering
 
 
 
@@ -72,7 +72,7 @@ A professional, full-stack admin panel designed for efficient inventory manageme
 
 
 
-###Optimized User Experience
+### Optimized User Experience
 
 
 
