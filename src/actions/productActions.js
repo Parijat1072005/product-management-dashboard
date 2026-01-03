@@ -4,7 +4,6 @@ import Product from "@/models/Product";
 import cloudinary from "@/lib/cloudinary";
 import { revalidatePath } from "next/cache";
 
-// --- CREATE ACTION ---
 export async function createProduct(formData) {
   try {
     await dbConnect();
@@ -31,7 +30,6 @@ export async function createProduct(formData) {
       imageUrl: imageUrl
     });
 
-    // Forces Next.js to fetch fresh data for the list page
     revalidatePath("/dashboard/products");
     return { success: true };
   } catch (error) {
