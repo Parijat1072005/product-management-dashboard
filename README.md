@@ -83,3 +83,73 @@ A professional, full-stack admin panel designed for efficient inventory manageme
 
 
 **Error Resilience**: Includes "Cancel" buttons and error handling to ensure a smooth administrative workflow.
+
+
+## Use the following stepwise to run the project
+
+
+Open the command prompt and move to desktop using:
+
+
+>>cd Desktop
+
+
+>>git clone https://github.com/Parijat1072005/product-management-dashboard
+
+
+Now go to the folder and open it with code.
+
+
+Now in the vs code terminal go to the product-management-dashboard
+
+
+>> cd Desktop/product-management-dashboard
+
+
+>> python -m venv venv
+
+
+>>pip install -r requirements.txt
+
+
+
+>>npm install
+
+
+
+Create a .env file and put these credentials as it is inside it ***[ If you don't have these crediantials, go get them from their official sites, you can take help of google to get them ]***:
+
+
+MONGODB_URI=your_mongodb_connection_string
+
+
+
+NEXTAUTH_SECRET=your_random_secret_key_here
+
+
+
+NEXTAUTH_URL=http://localhost:3000
+
+
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+
+
+
+CLOUDINARY_API_KEY=your_api_key
+
+
+
+CLOUDINARY_API_SECRET=your_api_secret
+
+
+
+>>node seed.js
+
+
+
+>>npm run dev
+
+
+
+
