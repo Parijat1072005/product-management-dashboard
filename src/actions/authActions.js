@@ -11,7 +11,6 @@ export async function registerAdmin(formData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  // Check if user exists
   const userExists = await User.findOne({ email });
   if (userExists) {
     return { error: "User already exists" };
