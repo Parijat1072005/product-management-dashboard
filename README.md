@@ -103,19 +103,13 @@ Open the command prompt and move to desktop using:
 >>git clone https://github.com/Parijat1072005/product-management-dashboard
 
 
-Now go to the folder and open it with code.
+Now go to the Desktop, right click on the folder and open it with code.
 
 
-Now in the vs code terminal go to the product-management-dashboard
+Now in the VS Code terminal go to the product-management-dashboard.
 
 
 >> cd Desktop/product-management-dashboard
-
-
->> python -m venv venv
-
-
->>pip install -r requirements.txt
 
 
 
@@ -123,7 +117,7 @@ Now in the vs code terminal go to the product-management-dashboard
 
 
 
-Create a .env file and put these credentials as it is inside it ***[ If you don't have these crediantials, go get them from their official sites, you can take help of google to get them ]***:
+Create a .env file and put these credentials as it is inside it ***If you don't have these credentials, go get them from their official sites, you can take help of google to get them***:
 
 
 MONGODB_URI=your_mongodb_connection_string
