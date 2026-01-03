@@ -1,68 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#Product Management Dashboard
+A professional, full-stack admin panel designed for efficient inventory management. This project features a multi-step product creation workflow, real-time search and filtering, and secure admin authentication.
+##Tech Stack
+Frontend: Next.js 15 (App Router) for a fast, modern user experience.
 
-## Getting Started
+Styling: Tailwind CSS for a high-contrast, responsive dashboard design.
 
-First, run the development server:
+Database: MongoDB with Mongoose for flexible and reliable data storage.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Authentication: NextAuth.js for secure admin-only access and session management.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Media Storage: Cloudinary for high-performance cloud image hosting.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Icons: Lucide React for a clean and consistent icon set.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+##Key Features
+###Secure Admin Authentication
+**Protected Routes**: Only logged-in admins can access the dashboard.
 
-## Learn More
+**Personalized Greeting**: Displays the actual name of the logged-in admin in the sidebar and header.
 
-To learn more about Next.js, take a look at the following resources:
+**Onboarding**: Functionality to register new admin users securely.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+###Inventory Control (Full CRUD)
+**Multi-Step Creation**: A user-friendly 3-step form (Details, Inventory, Media) to add products.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Advanced Editing**: Modify existing products with a pre-populated form and optional image updates.
 
-## Deploy on Vercel
+**Cloud Cleanup**: Deleting a product automatically removes its image from Cloudinary to save space.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+###Search & Smart Filtering
+**Live Search**: Instantly find products by name as you type.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# Server-Rendered E-commerce Product Management Dashboard
+**Category Filter**: Narrow down items by specific categories (Electronics, Clothing, etc.).
 
-## 🚀 Overview
-This is a high-performance, SEO-optimized administrative dashboard built with Next.js. It allows admins to manage product inventory, visualize sales/stock data through interactive charts, and securely onboard new administrators.
+**Low Stock Alerts**: A dedicated toggle to quickly identify products with fewer than 10 units in stock.
 
-## 🛠 Tech Stack
-- **Framework:** Next.js 15 (App Router, JavaScript)
-- **Database:** MongoDB Atlas (Mongoose)
-- **Authentication:** NextAuth.js (Role-based: Admin)
-- **Validation:** Zod & React Hook Form
-- **Visualization:** Recharts
-- **Image Storage:** Cloudinary Cloud Storage
+###Optimized User Experience
+**Loading States**: Visual feedback (spinners and overlays) during login, data fetching, and product publishing.
 
-## ✨ Key Features
-- **SSR (Server-Side Rendering):** Fast page loads and SEO compliance.
-- **Product CRUD:** Complete management with image upload support.
-- **Multi-step Forms:** Intuitive 3-step product creation process.
-- **Data Analytics:** Bar charts showing stock levels vs. price metrics.
-- **Secure Onboarding:** Admin-only route to create new admin users.
+**Instant Updates**: Uses revalidatePath to refresh the product list immediately after changes without manual page reloads.
 
-## 🔑 Dummy Credentials for Testing
-- **Email:** `admin@example.com`
-- **Password:** `admin123`
-
-## ⚙️ Setup Instructions
-1. Clone the repository.
-2. Run `npm install`.
-3. Create a `.env` file and add:
-   - `MONGODB_URI`, `NEXTAUTH_SECRET`
-   - `CLOUDINARY_CLOUD_NAME`, `API_KEY`, `API_SECRET`
-4. Run `node seed.js` to create the initial admin account.
-5. Start the server: `npm run dev`.
+**Error Resilience**: Includes "Cancel" buttons and error handling to ensure a smooth administrative workflow.
