@@ -1,4 +1,7 @@
 ## Here is the working link: ***https://product-management-dashboard-tau.vercel.app/***
+## Credentials: 
+Email: admin@example.com
+Password: admin123
 
 
 # Product Management Dashboard
