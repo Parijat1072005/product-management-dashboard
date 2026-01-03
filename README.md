@@ -117,7 +117,7 @@ Now in the VS Code terminal go to the product-management-dashboard.
 
 
 
-Create a .env file and put these credentials as it is inside it ***If you don't have these credentials, go get them from their official sites, you can take help of google to get them***:
+Create a .env file and put these credentials as it is inside it. ***If you don't have these credentials, go get them from their official sites, you can take help of google to get them***:
 
 
 MONGODB_URI=your_mongodb_connection_string
